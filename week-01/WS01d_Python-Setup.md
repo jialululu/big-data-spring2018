@@ -112,6 +112,15 @@ First we create a new folder to hold our virtual environments. Next, we create a
 
 Cool! You're now running Python in a virtual environment! You should see (bdvs) before the prompt in Terminal or Git Bash.
 
+## Install the `ipython` kernel
+
+We installed Hydrogen above, which will allow you to run Python scripts from within Atom. However, if you try to do this now, you're likely to be in trouble; we have yet to install a **kernel**. Basically, a kernel is a program that runs your code. One very common kernel is `ipython`, which we can install using `pip` in the same way that we installed `virtualenv` above. The only difference is that we're now working within a virtual environment, meaning that any packages you install will be installed in the virtual environment, rather than in your global Python packages.
+
+```sh
+# Remember that you may need to use pip3
+pip install ipython
+```
+
 ### Running Atom from within a virtual environment
 
 Once you've activated your virtual environment (again, make sure you see (bdvs) before the prompt in Terminal or Git Bash), you can run Atom, and therefore Hydrogen, from within this environment. To do so, you must start Atom from the command line using the following command:
