@@ -61,7 +61,7 @@ This data is too big to upload uncompressed to GitHub, so I've included it as a 
 # os.chdir('week-03')
 
 # Reading a CSV with Skyhook data
-df = pd.read_csv('week-03/data/skyhook_2017-07.csv', sep=',')
+df = pd.read_csv('data/skyhook_2017-07.csv', sep=',')
 
 # We can print the first 5 rows of the df
 df.head()
@@ -293,7 +293,7 @@ With this new column, we have everything we need to drop rows that are outside a
 
 ```python
 for i in range(0, 168, 24):
-  df.drop(df[(df['weekday'] == (i/24)) & ( (df['hour'] < date_range[i - 6]) | (df['hour'] >= date_range[i - 6] + 24 )) ].index, inplace = True)
+  df.drop(df[(df['weekday'] == (i/24)) & ( (df['hour'] < i) | (df['hour'] >= i + 24 )) ].index, inplace = True)
 ```
 
 This looks complicated, but let's break it down. We're running a loop which iterates over a range from 0 to 168, exclusive, using steps of 24. In other words, we're iterating over a week's worth of hours, day-by-day.
