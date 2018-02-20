@@ -20,7 +20,7 @@ import numpy as np
 
 ## Pandas and Data Frames
 
-You can think of a dataframe as a manipulable, multidimensional Python array. They are based on `numpy` arrays, can hold structured data, and you can perform functions on them to manage data, such as query, select, join, group. Let's set up a really simple dataframe.
+You can think of a dataframe as a manipulable, multidimensional Python array. They are based on `NumPy` arrays, can hold structured data, and you can perform functions on them to manage data, such as query, select, join, group. Let's set up a really simple dataframe.
 
 ```python
 # Create empty dataframe
@@ -63,7 +63,7 @@ This data is too big to upload uncompressed to GitHub, so I've included it as a 
 # Reading a CSV with Skyhook data
 df = pd.read_csv('data/skyhook_2017-07.csv', sep=',')
 
-# We can print the first 5 rows of the df
+# We can print the first 5 rows of the dataframe
 df.head()
 ```
 
@@ -170,7 +170,8 @@ We've now filtered our dataset substantially: we've limited our results to a sin
 Because this dataset contains every day between July 1 and July 31, we can specify a single day that is of interest to us. The fourth of July might seem the obvious choice, but let's imagine we're Francophiles: Bastille day it is.
 
 ```python
-bastille = df[df['date'] == '7/14/17']
+bastille = df[df['date'] == '2017-07-14']
+bastille.head
 ```
 
 Now that we're celebrating the abolition of French feudalism, we can see which aggregated cells saw greater than average levels of activity:
@@ -179,10 +180,6 @@ Now that we're celebrating the abolition of French feudalism, we can see which a
 bastille_enthusiasts = bastille[bastille['count'] > bastille['count'].mean()]
 bastille_enthusiasts.head
 ```
-
-Since these rows are the ones that have voted for Clinton, we can perform operations to locate which rows (ie which precincts) had more than 50% of the vote go to Clinton.
-
-This gives us a `Pandas.Series` of `True`s and `False`s. Again, we call this a mask.
 
 Pandas gives us a simple way to generate summary statistics. The `.describe()` method can be used to return a table that includes the count of non-null rows, their mean, standard deviation, etc.
 
@@ -262,7 +259,9 @@ You may have noticed something strange about the `hours` column in this dataset-
 We can visualize this problem by making some simple line graphs of our `count` column.
 
 ```python
-# This line lets us plot on our ipython notebook
+# This line lets us plot in Atom
+import matplotlib as mpl
+%matplotlib inline
 second = df[df['date'] == '2017-07-02'].groupby('hour')['count'].sum()
 second.plot()
 ```
