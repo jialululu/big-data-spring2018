@@ -53,7 +53,7 @@ http://pandas.pydata.org/pandas-docs/stable/index.html
 
 To start us off, let's look at some aggregated cell phone GPS data from a location services company called Skyhook. This is a Boston extract of Skyhook's OpenTide product, which aggregates individual GPS pings to 100x100 meter points. If you're interested, I scraped this from a CARTO product showcasing Skyhook's OpenTide data using a simple script that I've included in this week's materials (`scripts/skyhook_scrape.py`).
 
-This data is too big to upload uncompressed to GitHub, so I've included it as a ZIP file. Extract this zip file and make sure the resulting file is named `skyhook_2017-07.csv`, located in your `week-03` data folder. We then read in the CSV using the pandas `read_csv` function.
+This data is too big to upload uncompressed to GitHub, so I've included it as a ZIP file. Extract this zip file and make sure the resulting file is named `skyhook_2017-07.csv`, located in your `week-03` data folder. We then read in the CSV using the pandas `read_csv` function and store it in a new Pandas DataFrame that we call `df` (we could, of course, call it anything).
 
 ```python
 # If you started Atom from a directory other than the /week-03 directory, you'll need to change Python's working directory. Uncomment these lines and specify your week-03 path.
@@ -89,7 +89,7 @@ We can determine the shape (i.e., the dimensions) of our DataFrame by accessing 
 df.shape
 ```
 
-1,352,529 rows times 9 columns! Not *huge* data by contemporary standards, but definitely big. `df.shape` returns a `tuple`, so we can access members of this `tuple` like we do with a `list`:
+1,352,529 rows times 10 columns! Not *huge* data by contemporary standards, but definitely big. `df.shape` returns a `tuple`, so we can access members of this `tuple` like we do with a `list`:
 
 ```python
 # Number of rows
@@ -157,7 +157,7 @@ time.head
 time.shape
 ```
 
-We see that we now have a DataFrame containing observations in a single hour, subsetted from our DataFrame containing data for all of July 2017. Using `.shape`, we can see that it contains 10,601 rows.
+We see that we now have a DataFrame containing observations in a single hour, subsetted from our DataFrame containing data for all of July 2017. Using `.shape`, we can see that it contains 12,546 rows.
 
 We can query based on multiple criteria using boolean operators (`&` for `and`, `|` for `or`). All we need to do is add `()` brackets around each condition. The query uses a boolean AND. Each condition creates a mask containing `True` and `False` values.
 
@@ -312,5 +312,8 @@ We lost a some rows, but we're still left with 1,069,177: not too shabby!
 Let's export our cleaned data file to a CSV! Easy.
 
 ```python
+# If you started Atom from a directory other than the /week-03 directory, you may need to change Python's working directory. Uncomment these lines and specify your week-03 path.
+# import os
+# os.chdir('week-03')
 df.to_csv('data/skyhook_cleaned.csv')
 ```
