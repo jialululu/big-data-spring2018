@@ -262,14 +262,13 @@ We can visualize this problem by making some simple line graphs of our `count` c
 # This line lets us plot in Atom
 import matplotlib as mpl
 %matplotlib inline
-second = df[df['date'] == '2017-07-02'].groupby('hour')['count'].sum()
+second = df[df['date'] == '2017-07-03'].groupby('hour')['count'].sum()
 second.plot()
 ```
 
-Let's clean the data so that each day contains only those observations that occur during the appropriate day. To do so, we need to first identify which day of the week each calendar day corresponds with. We'll need to convert our `date` column to a `datetime` type that Python can interpret using the `datetime` library. We do this as follows:
+Let's clean the data so that each day contains only those observations that occur during the appropriate day. To do so, we need to first identify which day of the week each calendar day corresponds with. We'll need to convert our `date` column to a `datetime` type that Python can interpret using the Pandas `pd.to_datetime()` function. We do this as follows:
 
 ```python
-import datetime
 df['date_new'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
 ```
 
@@ -291,11 +290,31 @@ df['weekday'].replace(7, 0, inplace = True)
 With this new column, we have everything we need to drop rows that are outside a desired 24-hour time window using a relatively simple for loop:
 
 ```python
+# df[df['date'] == '2017-07-10'].groupby('hour')['count'].sum()
 for i in range(0, 168, 24):
-  df.drop(df[(df['weekday'] == (i/24)) & ( (df['hour'] < i) | (df['hour'] >= i + 24 )) ].index, inplace = True)
+  j = range(0,168,1)[i - 5]
+  if (j > i):
+    df.drop(df[
+    (df['weekday'] == (i/24)) &
+    (
+    ( (df['hour'] < j) & (df['hour'] > i + 18) ) |
+    ( (df['hour'] > i + 18 ) & (df['hour'] < j) )
+    )
+    ].index, inplace = True)
+  else:
+    df.drop(df[
+    (df['weekday'] == (i/24)) &
+    (
+    (df['hour'] < j) | (df['hour'] > i + 18 )
+    )
+    ].index, inplace = True)
 ```
 
 This looks complicated, but let's break it down. We're running a loop which iterates over a range from 0 to 168, exclusive, using steps of 24. In other words, we're iterating over a week's worth of hours, day-by-day.
+
+But there's a trick. It turns out that these times are logged using Greenwich Mean Time, meaning that Boston is 5 hours behind. This poses a problem when we're dealing with the first day of the week: there are five hours that wrap around the break in the array, occupying elements 163 - 167. If we simply subtract from our `i` value, we'll get negative values; the `hours` column contains no negative values. We therefore create a second range from 0-168 with one-step intervals, which permits us to use those negative numbers to access later elements in the `range`.
+
+We then use a branch to test whether a given day causes the problem of being split over the beginning and end of the range of hours. If our `j` value is greater than our `i` value, we know we have to specify different conditions.
 
 We then use the `.drop()` method to drop rows according to a criteria. We're dropping a row if it's `weekday` is a given value, and its `hour` value is either less than or greater than the window of hours over which that day spans.
 
@@ -305,7 +324,7 @@ Let's see what our dataset looks like after we've performed this cleaning operat
 df.shape
 ```
 
-We lost a some rows, but we're still left with 1,069,177: not too shabby!
+We lost a some rows (on the order of 50,000), but we're still left with 1,320,179... not too shabby!
 
 ## Exporting Data
 
@@ -315,5 +334,5 @@ Let's export our cleaned data file to a CSV! Easy.
 # If you started Atom from a directory other than the /week-03 directory, you may need to change Python's working directory. Uncomment these lines and specify your week-03 path.
 # import os
 # os.chdir('week-03')
-df.to_csv('data/skyhook_cleaned.csv')
+df.to_csv('week-03/data/skyhook_cleaned.csv')
 ```
