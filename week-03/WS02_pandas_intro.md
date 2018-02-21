@@ -1,4 +1,4 @@
-# Big Data And Society: Lab 2
+# Workshop 2: Big Data And Society
 
 ## Introduction to Pandas
 
@@ -254,16 +254,18 @@ Get the average number of GPS pings per hour across the whole dataset.
 
 One of the most common tasks while working with big data is data cleaning. Datasets will be inherently heterogeneous and unstructured. The lack of structure can cause functions to throw errors. We can clean data sets through various methods; if the discrepancies follow a structured pattern, it is possible to use built-in functions, or write our own functions. However, if the errors cannot be structured, we might have to do it manually!
 
-You may have noticed something strange about the `hours` column in this dataset---we are reasonably sure that there are only 24 hours in a day, but the `hours` column ranges from 0-167. This is because the data for each day is not terribly tidy; each day includes a small number of observations from the surrounding week. Further complicating the matter, the 168 hours take place over a week that runs from Sunday to Monday, where Sunday is 0-23, Monday is 24-47 etc.
+You may have noticed something strange about the `hours` column in this dataset---we are reasonably sure that there are only 24 hours in a day, but the `hours` column ranges from 0-167. This is because the data for each day is not terribly tidy; each day includes a small number of observations from the surrounding week. Further complicating the matter, the 168 hours take place over a week that runs from Sunday to Monday. Finally, the hours of the week are recorded in Greenwich Mean Time, which means that, while we might expect that Sunday corresponds to hours 0-23, Monday corresponds to hours 24-47 etc., it's slightly more complicated: Sunday runs from 163 - 18, spanning the beginning and end of the `hours` column.
 
 We can visualize this problem by making some simple line graphs of our `count` column.
 
 ```python
 # This line lets us plot in Atom
-import matplotlib as mpl
+import matplotlib
+# This line allows the results of plots to be displayed inline with our code.
 %matplotlib inline
-second = df[df['date'] == '2017-07-03'].groupby('hour')['count'].sum()
-second.plot()
+
+day_hours = df[df['date'] == '2017-07-02'].groupby('hour')['count'].sum()
+day_hours.plot()
 ```
 
 Let's clean the data so that each day contains only those observations that occur during the appropriate day. To do so, we need to first identify which day of the week each calendar day corresponds with. We'll need to convert our `date` column to a `datetime` type that Python can interpret using the Pandas `pd.to_datetime()` function. We do this as follows:
