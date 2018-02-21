@@ -1,6 +1,4 @@
-# Workshop 2: Big Data And Society
-
-## Introduction to Pandas
+# Workshop 2: Introduction to Pandas
 
 `Pandas` is a library for Python for data manipulation and analysis. Pandas expands the data processing capacities of Python and adds a number of classes for easily importing data; in particular, it adds numerical tables, from various formats into their DataFrame object. A `DataFrame` is Panda’s basic object that allows multidimensional data processing and indexing. `DataFrames` can be easily and efficiently queried without the need of cumbersome syntax and convoluted loops. `DataFrames` can be merged with other data, they can be sliced, and they can be reshaped. In a way, we can think of Pandas as a combination of Excel and SQL.
 
