@@ -108,3 +108,11 @@ Pick three times (or time ranges) and use the latitude and longitude to produce 
 ```python
 
 ```
+
+## Problem 6: Analyze Your (Very) Preliminary Findings
+
+For three of the visualizations you produced above, write a one or two paragraph analysis that identifies:
+
+1. A phenomenon that the data make visible (for example, how location services are utilized over the course of a day and why this might by).
+2. A shortcoming in the completeness of the data that becomes obvious when it is visualized.
+3. How this data could help us identify vulnerabilities related to climate change in the greater Boston area.
