@@ -26,11 +26,11 @@ api_secret = "your twitter secret"
 
 Using this method, we can then import the keys and use them on a repeated basis, and we can choose not to put this file on Github. Again, make sure your variables store your keys as strings!
 
-## Create a .gitignore file
+## Add to Your .gitignore file
 
 Here's the thing---it's **never** a good idea to include these keys in a publicly accessible script or webpage. This means that these keys should not find their way to GitHub. One way to keep them private is importing the keys as a variable from a separate, untracked file. We can make sure to avoid accidentally pushing the file by adding its name to a `.gitignore` file.
 
-Create a new file in the root directory of your forked repo. Save this file as `.gitignore`. Add the following lines to this file:
+In the root directory of your repo, you should see a file called `.gitignore`. Add the following lines to this file:
 
 ```sh
 week-04/**/twitter_keys.py
@@ -40,10 +40,12 @@ This is telling git that it should ignore changes to files called `twitter_keys.
 
 ## Importing the Libraries and Twitter Keys
 
-We will be using `twython`, a Python library that provides wrappers around Twitter's API. Like other Python packages we've used up until this point, we can install `twython` from the command line using `pip`.
+We will be using `tweepy`, a Python library that provides wrappers around Twitter's API. Like other Python packages we've used up until this point, we can install `tweepy` from the command line using `pip`.
 
 ```sh
-pip install twython
+pip install tweepy
+# or, if you have two versions of Python/pip installed:
+pip3 install tweepy
 ```
 
 Import the libraries:
