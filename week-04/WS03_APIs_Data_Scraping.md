@@ -116,11 +116,9 @@ If you recall, we set up our API object to automatically adjust for these limits
 
 ## Building Our Scraper
 
-Let's build a function to download Tweets! Let's set it up so that it accepts a location, a search term, and a
+Let's build a function to download Tweets. To give credit where credit is due, this code is a modified version of that developed by [Bhaskar Karambelkar](https://www.karambelkar.info/2015/01/how-to-use-twitters-search-rest-api-most-effectively./).
 
-To give credit where credit is due, this code is a modified version of that developed by [Bhaskar Karambelkar](https://www.karambelkar.info/2015/01/how-to-use-twitters-search-rest-api-most-effectively./).
-
-The basic logic is this; Twitter's REST API is a bit difficult (as are all REST APIs) because it doesn't maintain state information between queries; it doesn't know at what point the previous query stopped. We get around this by using a variable `max_id` that places an upper limit on the returned Tweets. At the end of every run through our `while` loop, we redefine `max_id` so that it is equal to `new_tweets[-1].id`; this means that the API will go further back in its history instead of returning the same Tweets we just retrieved.
+The basic logic is this; Twitter's REST API presents a slight difficulty (as do all REST APIs) because it doesn't maintain state information between queries; it doesn't know at what point the previous query stopped. We get around this by using a variable `max_id` that places an upper limit on the returned Tweets. At the end of every run through our `while` loop, we redefine `max_id` so that it is equal to `new_tweets[-1].id`; this means that the API will go further back in its history instead of returning the same Tweets we just retrieved.
 
 We also set some variables to store our parameters. First, we specify a location in two parts. We specify a `latlng`, next we specify a `radius` that will serve as a search distance. We then concatenate these two variables, according to the format expected by the API. According to the [GET search/tweets documentation](https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets):
 
