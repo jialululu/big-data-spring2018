@@ -16,7 +16,7 @@ The Twitter REST API is best place to start and what we will use in class. Follo
 
 ## Create a Python script to store your Twitter keys
 
-We need to create a Python file (`.py`) that will contain the Twitter keys. Open your text editor, and in the materials for the week, *PASTE* these keys into a new file and save it as `twitter-keys.py`. You need to define two string variables, one for each key. Your code should look like this:
+We need to create a Python file (`.py`) that will contain the Twitter keys. Open Atom, and in the materials for the week, *PASTE* these keys into a new file and save it as `twitter-keys.py`. You need to define two string variables, one for each key. Your code should look like this:
 
 ```python
 # In the file you should define two variables (these must be strings!)
@@ -48,7 +48,7 @@ pip install tweepy
 pip3 install tweepy
 ```
 
-Import the libraries:
+In Atom, make a new .py file where we will be writing our scraper and import the libraries:
 
 ```python
 # Import libraries
@@ -78,7 +78,7 @@ auth = tweepy.AppAuthHandler(api_key, api_secret)
 api = tweepy.API(auth, wait_on_rate_limit = True, wait_on_rate_limit_notify = True)
 ```
 
-Let's wrap this in a function that will authenticate using a user-provided key and secret key and either return an api object or exit after printing an error if authentication fails.
+Let's wrap this in a function that will authenticate using a user-provided key and secret key and either return an api object or exit after printing an error if authentication fails. `sys.exit(-1)` is what tells the function to exit if authentication fails.
 
 ```python
 def auth(key, secret):
@@ -98,7 +98,7 @@ We can then call this function as follows:
 api = auth(api_key, api_secret)
 ```
 
-For reference, check out the [tweepy documentation](http://docs.tweepy.org/en/v3.5.0/) for a list of all available commands.
+Now we have made a connection with the Twitter API and are ready to write our scraper. For reference, check out the [tweepy documentation](http://docs.tweepy.org/en/v3.5.0/) for a list of all available commands.
 
 ## A Quick Word on Endpoints Rate Limits
 
@@ -195,13 +195,13 @@ def parse_tweet(tweet):
   return p
 ```
 
-We can now uncomment the lines that read `all_tweets = pd.DataFrame()`, `all_tweets = all_tweets.append(parse_tweet(tweet), ignore_index = True)`, and `return all_tweets` in our `get_tweets` function. This lines...
+We can now uncomment the lines that read `all_tweets = pd.DataFrame()`, `all_tweets = all_tweets.append(parse_tweet(tweet), ignore_index = True)`, and `return all_tweets` in our `get_tweets` function. These lines...
 
 + Create an empty `DataFrame` called `all_tweets`.
-+ Append the series returned by our `parse_tweet` function to the `all_tweets` `DataFrame`
++ Append the series returned by our `parse_tweet` function to the `all_tweets` `DataFrame`.
 + Return the `all_tweets` function when the function finishes running.
 
-Because we're now returning a `DataFrame`, we want to bind the result of this function to a variable like so:
+Now we can run the `get_tweets` function using the following statement. Because we're now returning a `DataFrame`, we want to bind the result of this function to a variable like so:
 
 ```python
 tweets = get_tweets(geo = geocode_query, tweet_max = t_max, write = True, out_file = file_name)
@@ -284,7 +284,7 @@ len(tweets)
 ```python
 # Use a scatter plot to make a quick visualization of the data points
 # N.B., WHEN I DID THIS, I ONLY HAD SIX OUT OF ABOUT 100 TWEETS!
-plt.scatter(tweets_with_location['lon'], tweets_with_location['lat'], s = 25)
+plt.scatter(tweets_geo['lon'], tweets_geo['lat'], s = 25)
 plt.show()
 ```
 
