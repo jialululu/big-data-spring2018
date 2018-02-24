@@ -30,17 +30,17 @@ Using this method, we can then import the keys and use them on a repeated basis,
 
 Here's the thing---it's **never** a good idea to include these keys in a publicly accessible script or webpage. This means that these keys should not find their way to GitHub. One way to keep them private is importing the keys as a variable from a separate, untracked file. We can make sure to avoid accidentally pushing the file by adding its name to a `.gitignore` file.
 
-In the root directory of your repo, you should see a file called `.gitignore`. Add the following lines to this file:
+In the root directory of your repo, you should see a file called `.gitignore`. Open this file and take a look. You should see the following line:
 
 ```sh
 week-04/**/twitter_keys.py
 ```
 
-This is telling git that it should ignore changes to files called `twitter_keys.py` in any subdirectory of the week-04 directory. We're safe! This file will go untracked by GitHub and we can be sure that we won't accidentally push it to our public GitHub repo.
+This is telling git that it should ignore any changes to files called `twitter_keys.py` in any subdirectory of the week-04 directory. This is a simple way to ensure that we don't inadvertently upload our API keys to the repo. We're safe (so long as your file containing your Twitter keys is called `twitter_keys.py` and is in the week-04 folder or a subdirectory).
 
 ## Importing the Libraries and Twitter Keys
 
-We will be using `tweepy`, a Python library that provides wrappers around Twitter's API. Like other Python packages we've used up until this point, we can install `tweepy` from the command line using `pip`.
+We will be using `tweepy`, a Python library that provides wrappers around Twitter's API. Like other Python packages we've used up until this point, we can install `tweepy` from the command line using `pip`. Make sure you're in your virtual environment!
 
 ```sh
 pip install tweepy
@@ -48,13 +48,11 @@ pip install tweepy
 pip3 install tweepy
 ```
 
+We'll also be using a JSON parsing package called `jsonpickle`. Install it (`pip install jsonpickle`).
+
 In Atom, make a new .py file where we will be writing our scraper and import the libraries:
 
 ```python
-# Import libraries
-# import json
-# import time
-# from datetime import datetime
 import jsonpickle
 import tweepy
 import pandas as pd
@@ -126,22 +124,53 @@ We also set some variables to store our parameters. First, we specify a location
 
 We also build our function to include a parameter `write`, which, if `True`, instructs our function to write the returned tweets to a `json` file, the location of which is passed through the `file` parameter. Finally, we can specify a t_max, which is the maximum number of tweets the search should return before stopping---this is low at the moment, because we want to be able to test our function, but we can ratchet it up to download (literally) millions of Tweets.
 
+Note that we set a number of default values in our `get_tweets` function, including default values for `tweet_max` and a default value of an empty string for `search_term`. We can adjust these when we call the function after defining it by passing parameters (see the bottom of the below code block).
+
 ```python
-def get_tweets(geo, out_file, search_term = '', tweet_per_query = 100, tweet_max = 150, since_id = None, max_id = -1, write = False):
+def get_tweets(
+    geo,
+    out_file,
+    search_term = '',
+    tweet_per_query = 100,
+    tweet_max = 150,
+    since_id = None,
+    max_id = -1,
+    write = False
+  ):
   tweet_count = 0
   # all_tweets = pd.DataFrame()
   while tweet_count < tweet_max:
     try:
       if (max_id <= 0):
         if (not since_id):
-          new_tweets = api.search(q = search_term, rpp = tweet_per_query, geocode = geo)
+          new_tweets = api.search(
+            q = search_term,
+            rpp = tweet_per_query,
+            geocode = geo
+          )
         else:
-          new_tweets = api.search(q = search_term, rpp = tweet_per_query, geocode = geo, since_id = since_id)
+          new_tweets = api.search(
+            q = search_term,
+            rpp = tweet_per_query,
+            geocode = geo,
+            since_id = since_id
+          )
       else:
         if (not since_id):
-          new_tweets = api.search(q = search_term, rpp = tweet_per_query, geocode = geo, max_id = str(max_id - 1))
+          new_tweets = api.search(
+            q = search_term,
+            rpp = tweet_per_query,
+            geocode = geo,
+            max_id = str(max_id - 1)
+          )
         else:
-          new_tweets = api.search(q = search_term, rpp = tweet_per_query, geocode = geo, max_id = str(max_id - 1), since_id = since_id)
+          new_tweets = api.search(
+            q = search_term,
+            rpp = tweet_per_query,
+            geocode = geo,
+            max_id = str(max_id - 1),
+            since_id = since_id
+          )
       if (not new_tweets):
         print("No more tweets found")
         break
@@ -159,16 +188,24 @@ def get_tweets(geo, out_file, search_term = '', tweet_per_query = 100, tweet_max
   print (f"Downloaded {tweet_count} tweets.")
   # return all_tweets
 
-# Setup a Lat Lon
+# Set a Lat Lon
 latlng = '42.359416,-71.093993' # Eric's office (ish)
-# Setup a search distance
+# Set a search distance
 radius = '1mi'
 # See tweepy API reference for format specifications
 geocode_query = latlng + ',' + radius
+# set output file location
 file_name = 'data/tweets.json'
+# set threshold number of Tweets. Note that it's possible
+# to get more than one
 t_max = 200
 
-get_tweets(geo = geocode_query, tweet_max = t_max, write = True, out_file = file_name)
+get_tweets(
+  geo = geocode_query,
+  tweet_max = t_max,
+  write = True,
+  out_file = file_name
+)
 ```
 
 This function will run as is, allowing you to download Tweets to a `.json` file---give it a go! However, we might also want to download it into a more Python-legible format so that we can manipulate it and analyze it.
@@ -204,7 +241,12 @@ We can now uncomment the lines that read `all_tweets = pd.DataFrame()`, `all_twe
 Now we can run the `get_tweets` function using the following statement. Because we're now returning a `DataFrame`, we want to bind the result of this function to a variable like so:
 
 ```python
-tweets = get_tweets(geo = geocode_query, tweet_max = t_max, write = True, out_file = file_name)
+tweets = get_tweets(
+  geo = geocode_query,
+  tweet_max = t_max,
+  write = True,
+  out_file = file_name
+)
 ```
 
 ## Let's Explore the Tweets
