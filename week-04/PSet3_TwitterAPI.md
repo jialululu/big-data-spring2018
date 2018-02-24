@@ -6,6 +6,10 @@ Now that you know how to scrape data from Twitter, let's extend the exercise a l
 
 Make sure to label all your axes and add legends and units (where appropriate)! Think of these graphs as though they were appearing in a published report for an audience unfamiliar with the data.
 
+## Don't Work on Incomplete Data!
+
+One of the dangers of cleaning data is that you inadvertently delete data that is pertinent to your analysis. If you find yourself getting strange results, you can always run previous portions of your script again to rewind your data. See the section called 'reloading your Tweets in the workshop.
+
 ## Deliverables
 
 ### Push to GitHub
