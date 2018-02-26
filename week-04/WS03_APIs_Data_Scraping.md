@@ -255,6 +255,16 @@ tweets = get_tweets(
 )
 ```
 
+## Reloading Downloaded Data
+
+We're about to start cleaning our data; cleaning is not an exact science, and sometimes we'll want to step back and reload our data. For example, we run an `inplace` operation that modifies our DataFrame, and we do so in a way that we regret (i.e., we delete too many rows). This is why we download the data in addition to loading it into a Python DataFrame.
+
+We can always reload our data by running the below command, where `df` is an arbitrary variable name and `path/example_json.json` is the path to, for example, your Tweets:
+
+```python
+df = pd.read_json('path/example_json.json')
+```
+
 ## Let's Explore the Tweets
 
 Let's look through the DataFrame and peek at the Tweets we just downloaded. First, let's import a couple of additional libraries that will let us interact with our file system use `numpy` and `pandas`, and create plots:
