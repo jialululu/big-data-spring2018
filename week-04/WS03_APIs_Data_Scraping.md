@@ -2,7 +2,13 @@
 
 ## Set up a Twitter Application
 
-This week we are going to scrape data from the Twitter API and make some plots! We are going to use the Twitter REST API, which lets us query and retrieve samples of Tweets. To do this, you need API keys that are linked to an App that you create through your Twitter account. Your API keys are secret and unique to you and only you, and they gives you access to Twitter data through the API.
+This week we are going to scrape data from the Twitter API and make some plots! We are going to use the Twitter REST API, which lets us query and retrieve samples of Tweets. To do this, you need API keys that are linked to an App that you create through your Twitter account. Your API keys are secret and unique to you and only you, and they gives you access to Twitter data through its API.
+
+### What is an API?
+
+In broad terms, an API is a set of instructions that allow one piece of software to talk to another piece of software; it's a set of instructions for interacting with an application.
+
+Many times, though, when we're interested in data, we mean something slightly more specific. For example, we'll be using the Twitter API, which is designed to let other software send questions to Twitter's database ('how many Tweets contain this keyword?') and retrieve results from those questions. Twitter's instructions for interacting with its various API are [documented here](https://developer.twitter.com/en/docs).
 
 There are a couple of ways to get Twitter data; the REST API is just one of them. The others are to set up a Streamer (which streams real time tweets), or to access the Firehose (this means everything!). Read [this article](https://brightplanet.com/2013/06/twitter-firehose-vs-twitter-api-whats-the-difference-and-why-should-you-care/) to compare these methods.
 
