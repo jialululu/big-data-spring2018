@@ -88,8 +88,8 @@ for i in range(0, 168, 24):
   j = range(0,168,1)[i - 5]
   df['hour'].replace(range(j, j + 5, 1), range(-5, 0, 1), inplace=True)
   df['hour'].replace(range(i, i + 19, 1), range(0, 19, 1), inplace=True)
-
-
+df
+df['hour'].unique()
 ```
 
 ## Problem 3: Create a Timestamp Column
@@ -100,6 +100,9 @@ Now that you have both a date and a time (stored in a more familiar 24-hour rang
 
 ```python
 
+df['time_stamp']=df['date_new']+pd.to_timedelta(df['hour'],unit='h')
+df
+
 ```
 
 ## Problem 4: Create Two Line Charts of Activity by Hour
@@ -109,7 +112,11 @@ Create two more graphs. The first should be a **line plot** of **total activity*
 ### Solution
 
 ```python
+line_plot=df.groupby('time_stamp')['count'].sum()
+line_plot.plot.line(title='Total Activity Counts By Date',color='b')
 
+bar_char=df.groupby(['hour'])['count'].sum()
+bar_char.plot.bar(title='Activity Counts in Different Hours During The Day', color='m')
 ```
 
 ## Problem 5: Create a Scatter Plot of Shaded by Activity
@@ -118,6 +125,16 @@ Pick three times (or time ranges) and use the latitude and longitude to produce 
 
 ```python
 
+graph1= df[df['time_stamp']==pd.Timestamp('2017-07-02 18:00:00')]
+#question: why do i need to use pd.Timestamp to specify? using '2017---' without the function gets the same graph.
+graph1.plot.scatter(x='lon',y='lat',s=df['count']*0.1)
+
+graph2=df[df['time_stamp']==pd.Timestamp('2017-07-14 18:00:00')]
+graph2.plot.scatter(x='lon',y='lat',s=df['count']*0.1)
+
+graph3=df[df['time_stamp']==pd.Timestamp('2017-07-14 08:00:00')]
+graph3.plot.scatter(x='lon', y='lat', s=df['count']*0.1)
+
 ```
 
 ## Problem 6: Analyze Your (Very) Preliminary Findings
@@ -125,5 +142,13 @@ Pick three times (or time ranges) and use the latitude and longitude to produce 
 For three of the visualizations you produced above, write a one or two paragraph analysis that identifies:
 
 1. A phenomenon that the data make visible (for example, how location services are utilized over the course of a day and why this might by).
+
+The last two graphs which reflect activity counts at different time on the same day reveal that in the morning, 8am, people were concentrated in the middle area, and at night a large number of people moved to one particular spot in the west. We can guess that the center of the area is more about working or living uses, while the place where the west dot and the south dots locate are more about entertainment. Compare the first two maps which reflect activity counts at the same time in a day on different dates, we can see on Jul 02, people are sparsely scattered except up above there is a horizontal line where people concentrate. On Jul 14, dots are aligned with streets, amd concentrate in different parts of the city, which indicates on these two days, different activities happened in different areas of the city.
+
 2. A shortcoming in the completeness of the data that becomes obvious when it is visualized.
+
+if the maps could have a satellite map as background or could have a layer of urban context beneath, the scattered dots would make more sense of how they are related to urban infrastructures.
+
 3. How this data could help us identify vulnerabilities related to climate change in the greater Boston area.
+
+The maps reveal the concentration of people during different time of a day and on different dates, which help us to analyze the load of local services. If we could compare the maps with flooding tier maps, we could know what places are facing the risk of flooding and also bear severe load of utility.
