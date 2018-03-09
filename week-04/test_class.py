@@ -31,7 +31,7 @@ def get_tweets(
     write = False
   ):
   tweet_count = 0
-  # all_tweets = pd.DataFrame()
+  all_tweets = pd.DataFrame()
   while tweet_count < tweet_max:
     try:
       if (max_id <= 0):
@@ -68,7 +68,7 @@ def get_tweets(
         print("No more tweets found")
         break
       for tweet in new_tweets:
-        # all_tweets = all_tweets.append(parse_tweet(tweet), ignore_index = True)
+        all_tweets = all_tweets.append(parse_tweet(tweet), ignore_index = True)
         if write == True:
             with open(out_file, 'w') as f:
                 f.write(jsonpickle.encode(tweet._json, unpicklable=False) + '\n')
@@ -79,7 +79,7 @@ def get_tweets(
       print("Error : " + str(e))
       break
   print (f"Downloaded {tweet_count} tweets.")
-  # return all_tweets
+  return all_tweets
 
 # Set a Lat Lon
 latlng = '42.359416,-71.093993' # Eric's office (ish)
@@ -117,13 +117,60 @@ def parse_tweet(tweet):
   p['time'] = str(tweet.created_at)
   return p
 
+tweets = get_tweets(
+  geo = geocode_query,
+  tweet_max = t_max,
+  write = True,
+  out_file = file_name
+)
 
+df = pd.read_json('data/tweets.json')
 
-  for i in range(6,368,24):
-      j=range(0,168,1)[i-5]
-      print(i,j)
-      if (j>i):
-          df['hour'].replace(range(i,i+19,1),range(5,24,1),inplace = True)
-          df.('hour').replace()
-      else:
-          df('hour').replace(range(i,i+19,3),range(0,24,1),inplace = True)
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+tweets.dtypes
+
+tweets['location'].unique()
+
+loc_tweets = tweets[tweets['location'] != '']
+count_tweets = loc_tweets.groupby('location')['id'].count()
+df_count_tweets = count_tweets.to_frame()
+df_count_tweets
+df_count_tweets.columns
+df_count_tweets.columns = ['count']
+df_count_tweets
+
+df_count_tweets.sort_index()
+
+# Create a list of colors (from iWantHue)
+colors = ["#697dc6","#5faf4c","#7969de","#b5b246",
+          "#cc54bc","#4bad89","#d84577","#4eacd7",
+          "#cf4e33","#894ea8","#cf8c42","#d58cc9",
+          "#737632","#9f4b75","#c36960"]
+
+# Create a pie chart
+plt.pie(df_count_tweets['count'], labels=df_count_tweets.index.get_values(), shadow=False, colors=colors)
+plt.axis('equal')
+plt.tight_layout()
+plt.show()
+
+# View the plot
+
+# Create a filter from df_tweets filtering only those that have values for lat and lon
+tweets_geo = tweets[tweets['lon'].notnull() & tweets['lat'].notnull()]
+len(tweets_geo)
+len(tweets)
+
+# Use a scatter plot to make a quick visualization of the data points
+# N.B., WHEN I DID THIS, I ONLY HAD SIX OUT OF ABOUT 100 TWEETS!
+plt.scatter(tweets_geo['lon'], tweets_geo['lat'], s = 25)
+plt.show()
+
+bos_list = tweets[tweets['location'].str.contains("Boston")]['location']
+tweets['location'].replace(bos_list, 'Boston, MA', inplace = True)
+
+tweets[tweets.duplicated(subset = 'content', keep = False)]
+
+tweets.drop_duplicates(subset = 'content', keep = False, inplace = True)
