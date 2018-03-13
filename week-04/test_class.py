@@ -31,7 +31,11 @@ def get_tweets(
     write = False
   ):
   tweet_count = 0
+<<<<<<< HEAD
   all_tweets = pd.DataFrame()
+=======
+  # all_tweets = pd.DataFrame()
+>>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
   while tweet_count < tweet_max:
     try:
       if (max_id <= 0):
@@ -68,7 +72,11 @@ def get_tweets(
         print("No more tweets found")
         break
       for tweet in new_tweets:
+<<<<<<< HEAD
         all_tweets = all_tweets.append(parse_tweet(tweet), ignore_index = True)
+=======
+        # all_tweets = all_tweets.append(parse_tweet(tweet), ignore_index = True)
+>>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
         if write == True:
             with open(out_file, 'w') as f:
                 f.write(jsonpickle.encode(tweet._json, unpicklable=False) + '\n')
@@ -79,7 +87,11 @@ def get_tweets(
       print("Error : " + str(e))
       break
   print (f"Downloaded {tweet_count} tweets.")
+<<<<<<< HEAD
   return all_tweets
+=======
+  # return all_tweets
+>>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
 
 # Set a Lat Lon
 latlng = '42.359416,-71.093993' # Eric's office (ish)
@@ -117,6 +129,7 @@ def parse_tweet(tweet):
   p['time'] = str(tweet.created_at)
   return p
 
+<<<<<<< HEAD
 tweets = get_tweets(
   geo = geocode_query,
   tweet_max = t_max,
@@ -174,3 +187,15 @@ tweets['location'].replace(bos_list, 'Boston, MA', inplace = True)
 tweets[tweets.duplicated(subset = 'content', keep = False)]
 
 tweets.drop_duplicates(subset = 'content', keep = False, inplace = True)
+=======
+
+
+  for i in range(6,368,24):
+      j=range(0,168,1)[i-5]
+      print(i,j)
+      if (j>i):
+          df['hour'].replace(range(i,i+19,1),range(5,24,1),inplace = True)
+          df.('hour').replace()
+      else:
+          df('hour').replace(range(i,i+19,3),range(0,24,1),inplace = True)
+>>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
