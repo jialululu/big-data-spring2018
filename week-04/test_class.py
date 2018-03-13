@@ -32,7 +32,11 @@ def get_tweets(
   ):
   tweet_count = 0
 <<<<<<< HEAD
+<<<<<<< HEAD
   all_tweets = pd.DataFrame()
+=======
+  # all_tweets = pd.DataFrame()
+>>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
 =======
   # all_tweets = pd.DataFrame()
 >>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
@@ -73,7 +77,11 @@ def get_tweets(
         break
       for tweet in new_tweets:
 <<<<<<< HEAD
+<<<<<<< HEAD
         all_tweets = all_tweets.append(parse_tweet(tweet), ignore_index = True)
+=======
+        # all_tweets = all_tweets.append(parse_tweet(tweet), ignore_index = True)
+>>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
 =======
         # all_tweets = all_tweets.append(parse_tweet(tweet), ignore_index = True)
 >>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
@@ -88,7 +96,11 @@ def get_tweets(
       break
   print (f"Downloaded {tweet_count} tweets.")
 <<<<<<< HEAD
+<<<<<<< HEAD
   return all_tweets
+=======
+  # return all_tweets
+>>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
 =======
   # return all_tweets
 >>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
@@ -129,6 +141,7 @@ def parse_tweet(tweet):
   p['time'] = str(tweet.created_at)
   return p
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 tweets = get_tweets(
   geo = geocode_query,
@@ -188,6 +201,8 @@ tweets[tweets.duplicated(subset = 'content', keep = False)]
 
 tweets.drop_duplicates(subset = 'content', keep = False, inplace = True)
 =======
+=======
+>>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
 
 
   for i in range(6,368,24):
@@ -198,4 +213,7 @@ tweets.drop_duplicates(subset = 'content', keep = False, inplace = True)
           df.('hour').replace()
       else:
           df('hour').replace(range(i,i+19,3),range(0,24,1),inplace = True)
+<<<<<<< HEAD
+>>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
+=======
 >>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
