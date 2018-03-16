@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import pandas as pd
-=======
 import panda as pd
->>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
-=======
-import panda as pd
->>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
 import numpy as np
 
 df = pd.DataFrame()
 df['name']=['Joey', 'Jeremy', 'Jenny']
 df
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 df.assign (age = [28,33,27])
 
@@ -104,8 +94,3 @@ for i in range(0, 168, 24):
 df.shape
 import os
 os.chdir('week-03')
-df.to_csv('data/slyhook_cleaned.csv')
-=======
->>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
-=======
->>>>>>> e145d517caffa88f8c8fadd20c5ff1aa4fb8a992
