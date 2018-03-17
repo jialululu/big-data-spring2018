@@ -227,7 +227,7 @@ def lst_calc(location):
     lst = bt / (1 + (wave * bt / p) * np.log(emis))
     return lst
 
-lst = lst_calc(DATA)
+lst_filter = lst_calc(DATA)
 
 ```
 
@@ -271,17 +271,33 @@ def cloud_filter(array, bqa):
 You should now be able to write your NDVI and LST arrays as GeoTIFFs. For example, to write your filtered LST to a `tif` consistent with the naming convention we've requested, you would write this code (assuming you're storing your LST in a variable called `lst_filter`).
 
 ```python
-cloud_location = os.path.join(DATA, 'LC08_L1TP_009047_20130630_20170503_01_T1_BQA.TIF')
-cloud_array = tif2array(cloud_location)
-lst_filter = cloud_filter (cloud_array, bqa)
-
-tirs_path = os.path.join(DATA, 'LC08_L1TP_012031_20170716_20170727_01_T1_B10.TIF')
+# write the lst tif
+tirs_path = os.path.join(DATA,  'LC08_L1TP_009047_20130630_20170503_01_T1_B10.tif')
 out_path = os.path.join(DATA, 'tan_lst_20130630.tif')
 array2tif(tirs_path, out_path, lst_filter)
 
+plt.imshow(lst_filter, cmap = 'RdYlGn')
+plt.colorbar()
+
+# write the ndvi tif filtered without clouds
+location_red = os.path.join(DATA, 'LC08_L1TP_009047_20130630_20170503_01_T1_B4.tif')
+location_nir = os.path.join(DATA, 'LC08_L1TP_009047_20130630_20170503_01_T1_B5.tif')
+
+red = tif2array(location_red)
+nir = tif2array(location_nir)
+
+ndvi = ndvi_calc(red, nir)
+
+location_cloud = os.path.join(DATA, 'LC08_L1TP_009047_20130630_20170503_01_T1_BQA.tif')
+bqa = tif2array(location_cloud)
+new_ndvi = cloud_filter (ndvi, bqa)
+
 red_path = os.path.join(DATA, 'LC08_L1TP_009047_20130630_20170503_01_T1_B4.tif')
 out_path = os.path.join(DATA, 'tan_ndvi_20130630.tif')
-array2tif(tirs_path, out_path, new_ndvi)
+array2tif(red_path, out_path, new_ndvi)
+
+plt.imshow(new_ndvi, cmap = 'RdYlGn')
+plt.colorbar()
 
 ```
 
