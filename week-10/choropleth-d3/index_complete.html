@@ -80,6 +80,8 @@ d3.queue()
 function ready(error, us) {
   if (error) throw error;
 
+  console.log(topojson.feature())
+
   svg.append("g")
       .attr("class", "counties")
     .selectAll("path")

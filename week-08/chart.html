@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>I'm Learning D3</title>
+	<!-- Load the D3 library here -->
+	<script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+</head>
+<body>
+	<!-- Page elements and content go here. -->
+	<svg width="160" height="180">
+		<rect x="30" width="20" fill="steelblue"></rect>
+		<rect x="55" width="20" fill="steelblue"></rect>
+		<rect x="80" width="20" fill="steelblue"></rect>
+		<rect x="105" width="20" fill="steelblue"></rect>
+	</svg>
+	<script>
+		var ratData = [ 40, 90, 30, 60 ];
+
+		d3.selectAll( "rect" )
+			.data( ratData )
+			.attr( "height", function(d){
+				return d;
+			});
+	</script>
+
+</body>
+</html>
