@@ -11,8 +11,8 @@
 	<!-- Page elements and content go here. -->
 	<script>
 		// Our D3 code will go here.
-    var width = 720,
-        height = 500;
+    var width = 900,
+        height = 800;
 
     var projection = d3.geoAlbers()
         .scale(190000)
@@ -43,8 +43,8 @@
         .style("background-color","white");
 
     var x = d3.scaleLinear()
-        .domain([1, 10])
-        .rangeRound([600, 860]);
+        .domain([0, 1])
+        .rangeRound([100, 1000]);
 
     var g = svg.append("g")
         .attr("class", "key")
