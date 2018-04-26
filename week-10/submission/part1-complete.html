@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Mapping with D3</title>
+	<script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-queue.v2.min.js"></script>
+</head>
+<body>
+	<!-- Page elements and content go here. -->
+	<script>
+		// Our D3 code will go here.
+    var width = 720,
+        height = 500;
+
+    var projection = d3.geoAlbers()
+        .scale(190000)
+        .rotate( [71.057,0] )
+        .center( [0, 42.313] )
+        .translate([width / 2, height / 2]);
+
+    var path = d3.geoPath()
+        .projection(projection);
+
+    var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    var color = d3.scaleThreshold()
+        .domain([0.0, 0.1, 0.2, 0.3, 0.4])
+        .range(d3.schemeBlues[5]);
+
+    // Queue up datasets using d3 Queue
+    d3.queue()
+      .defer(d3.json, "boston_neigh.json")
+      .defer(d3.csv, "boston_311_totals.csv") // Load Unemployment TSV
+      .await(ready);
+
+    function ready(error, neigh, total311) { // Add parameter for unemployment
+      if (error) throw error;
+
+      var percentage = {}; // Create empty object for holding dataset
+      total311.forEach(function(d) {
+        percentage[d.Name] = 100*(+d.twit_count/+d.tot_count); // Create property for each ID, give it value from rate
+      });
+
+      svg.append("g")
+        	.attr("class", "meightborhoods")
+        	.selectAll("path")
+        	.data(topojson.feature(neigh, neigh.objects.boston_neigh).features)
+        	.enter().append("path")
+        	.attr("d", path)
+        	.style("fill", function(d) {
+        		return color(percentage[d.properties.Name]); // get rate value for property matching data ID
+        		// pass rate value to color function, return color based on domain and range
+        	});
+    }
+
+
+	</script>
+</body>
+</html>
