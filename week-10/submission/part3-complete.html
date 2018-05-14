@@ -61,7 +61,7 @@
          }))
         .enter().append("rect")
           .attr("height", 8)
-          .attr("x", function(d) { return x(d[0]); })
+          .attr("x", function(d) { console.log(x(d[0]), d[0]); return x(d[0]); })
           .attr("width", function(d) { return x(d[1]) - x(d[0]); })
           .attr("fill", function(d) { return color(d[0]); });
 
@@ -107,6 +107,7 @@
         	.style("fill", function(d) {
         		return color(percentage[d.properties.Name])})
           .on("mouseover", function(d){
+						console.log(d);
           	return tooltip.style("visibility", "visible").text(d.properties.Name + ": " + percentage[d.properties.Name].toFixed(2)+"%");
           })
           .on("mousemove", function(d){
